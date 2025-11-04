@@ -8,6 +8,7 @@ import { router, usePage } from '@inertiajs/vue3';
 import { motion } from 'motion-v';
 import { ref } from 'vue';
 import ILucideAppWindow from '~icons/lucide/app-window';
+import ILucideArrowRight from '~icons/lucide/arrow-right';
 import ILucideCreditCard from '~icons/lucide/credit-card';
 import ILucideGithub from '~icons/lucide/github';
 import ILucideLayers3 from '~icons/lucide/layers3';
@@ -162,7 +163,7 @@ const features = [
                             :to="register().url"
                             size="xl"
                             label="Get Started - It's Free"
-                            icon="ILucideArrowRight"
+                            :icon="ILucideArrowRight"
                             trailing
                         />
                         <UButton
@@ -172,7 +173,7 @@ const features = [
                             label="Star on GitHub"
                             color="neutral"
                             variant="ghost"
-                            icon="ILucideGithub"
+                            :icon="ILucideGithub"
                         />
                     </motion.div>
                 </template>
