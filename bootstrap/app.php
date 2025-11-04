@@ -30,13 +30,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'stripe/*',
         ]);
 
-        // $middleware->trustProxies(
-        //     at: '*',
-        //     headers: Request::HEADER_X_FORWARDED_FOR |
-        //     Request::HEADER_X_FORWARDED_HOST |
-        //     Request::HEADER_X_FORWARDED_PORT |
-        //     Request::HEADER_X_FORWARDED_PROTO
-        // );
+        $middleware->trustProxies(
+            at: '*',
+            headers: Request::HEADER_X_FORWARDED_FOR |
+            Request::HEADER_X_FORWARDED_HOST |
+            Request::HEADER_X_FORWARDED_PORT |
+            Request::HEADER_X_FORWARDED_PROTO
+        );
 
         $middleware->alias([
             'has.password' => EnsureUserHasPassword::class,
