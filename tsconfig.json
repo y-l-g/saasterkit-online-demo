@@ -120,10 +120,8 @@
         "resources/js/**/*.d.ts",
         "resources/js/**/*.tsx",
         "resources/js/**/*.vue",
-        "icons.ts",
         "auto-imports.d.ts",
         "components.d.ts",
         "resources/js/icons/AppLogoIcon.ts",
-        "icons/lucide.ts",
     ]
 }
