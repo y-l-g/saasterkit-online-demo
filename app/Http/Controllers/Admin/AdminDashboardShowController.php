@@ -27,12 +27,12 @@ final readonly class AdminDashboardShowController
             ->count();
 
         $canceledSubscriptionsThisPeriod = Subscription::query()
-            ->whereNotNull('canceled_at')
-            ->where('canceled_at', '>=', $thisPeriodStart)
+            ->whereNotNull('ends_at')
+            ->where('ends_at', '>=', $thisPeriodStart)
             ->count();
         $canceledSubscriptionsPreviousPeriod = Subscription::query()
-            ->whereNotNull('canceled_at')
-            ->whereBetween('canceled_at', [$previousPeriodStart, $thisPeriodStart])
+            ->whereNotNull('ends_at')
+            ->whereBetween('ends_at', [$previousPeriodStart, $thisPeriodStart])
             ->count();
 
         $newUsersThisPeriod = User::query()
