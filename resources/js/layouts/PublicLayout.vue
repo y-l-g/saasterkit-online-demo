@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import IBiTwitterX from '~icons/bi/twitter-x';
-import ILucideGithub from '~icons/lucide/github';
-
 import { dashboard, login, logout, privacy, register } from '@/routes';
 import { router, usePage } from '@inertiajs/vue3';
 import { DrawerProps, NavigationMenuItem } from '@nuxt/ui';
 import { useBreakpoints } from '@vueuse/core';
+import IBiTwitterX from '~icons/bi/twitter-x';
+import ILucideDollarSign from '~icons/lucide/dollar-sign';
+import ILucideGithub from '~icons/lucide/github';
 
 const page = usePage();
 
@@ -42,7 +42,7 @@ const footerItems: NavigationMenuItem[] = [
         }"
     >
         <template #title>
-            <UButton variant="link" size="xl" icon="i-lucide-dollar-sign"
+            <UButton variant="link" size="xl" :icon="ILucideDollarSign"
                 ><span v-if="!isXs" class="ml-[-12px]"
                     ><span class="text-default">aas</span>terkit</span
                 ></UButton
