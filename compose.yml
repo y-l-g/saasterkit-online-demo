@@ -3,7 +3,7 @@ services:
   # OCTANE:FRANKENPHP
   #################################################
   app:
-    image: ghcr.io/y-l-g/saasterkit:main
+    image: ghcr.io/y-l-g/saasterkit-online-demo:main
     healthcheck:
       test: sh -c 'php artisan octane:status'
       start_period: 20s
@@ -20,7 +20,7 @@ services:
   # SSR
   #################################################
   ssr:
-    image: ghcr.io/y-l-g/saasterkit:main
+    image: ghcr.io/y-l-g/saasterkit-online-demo:main
     command: sh -c 'php artisan inertia:start-ssr'
     healthcheck:
       test: sh -c 'php artisan inertia:check-ssr'
@@ -37,7 +37,7 @@ services:
   # CRON
   #################################################
   cron:
-    image: ghcr.io/y-l-g/saasterkit:main
+    image: ghcr.io/y-l-g/saasterkit-online-demo:main
     restart: always
     command: ['cron', '-f']
     healthcheck:
