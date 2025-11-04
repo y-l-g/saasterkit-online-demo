@@ -1,0 +1,56 @@
+services:
+  #################################################
+  # OCTANE:FRANKENPHP
+  #################################################
+  app:
+    image: ghcr.io/y-l-g/saasterkit:main
+    healthcheck:
+      test: sh -c 'php artisan octane:status'
+      start_period: 20s
+    command: sh -c 'php artisan octane:frankenphp --host=0.0.0.0'
+    environment:
+      - APP_NAME=saasterkit
+      - INERTIA_SSR_URL=http://ssr:13714
+    secrets:
+      - saasterkit_ENV
+    entrypoint: start-container
+    networks:
+      - saasterkit
+  #################################################
+  # SSR
+  #################################################
+  ssr:
+    image: ghcr.io/y-l-g/saasterkit:main
+    command: sh -c 'php artisan inertia:start-ssr'
+    healthcheck:
+      test: sh -c 'php artisan inertia:check-ssr'
+      start_period: 20s
+    environment:
+      - APP_NAME=saasterkit
+      - INERTIA_SSR_URL=http://127.0.0.1:13714
+    secrets:
+      - saasterkit_ENV
+    entrypoint: start-container
+    networks:
+      - saasterkit
+  #################################################
+  # CRON
+  #################################################
+  cron:
+    image: ghcr.io/y-l-g/saasterkit:main
+    restart: always
+    command: ['cron', '-f']
+    healthcheck:
+      test: ['CMD', 'pgrep', '-f', 'cron']
+      start_period: 20s
+    secrets:
+      - saasterkit_ENV
+    entrypoint: start-container
+    networks:
+      - saasterkit
+secrets:
+  saasterkit_ENV:
+    external: true
+networks:
+  saasterkit:
+    external: true
