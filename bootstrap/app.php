@@ -29,7 +29,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'stripe/*',
         ]);
-        if (env('APP_ENV') === 'local') {
+
+        if (($_ENV['APP_ENV'] ?? 'production') === 'local') {
             $middleware->trustProxies(
                 at: '*',
                 headers: Request::HEADER_X_FORWARDED_FOR |
