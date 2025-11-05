@@ -10,6 +10,7 @@ use App\Notifications\LoginLinkNotification;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Session\Store as Session;
+use Laravel\Fortify\Events\TwoFactorAuthenticationChallenged;
 use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
 use Laravel\Socialite\Two\User as SocialiteUser;
 
@@ -56,7 +57,7 @@ final readonly class HandleProviderCallbackController
         );
 
         if ($socialAccount) {
-            return $this->loginAndRedirect($socialAccount->user);
+            return $this->loginOrChallengeTwoFactor($socialAccount->user);
         }
 
         $userWithSameEmail = User::query()->where('email', $socialiteUser->getEmail())->first();
@@ -68,6 +69,21 @@ final readonly class HandleProviderCallbackController
         $newUser = User::createFromSocialite($socialiteUser, $provider);
 
         return $this->loginAndRedirect($newUser);
+    }
+
+    private function loginOrChallengeTwoFactor(User $user): RedirectResponse
+    {
+        if ($user->two_factor_secret) {
+            session()->put([
+                'login.id' => $user->getKey(),
+                'login.remember' => true,
+            ]);
+            TwoFactorAuthenticationChallenged::dispatch($user);
+
+            return redirect()->route('two-factor.login');
+        }
+
+        return $this->loginAndRedirect($user);
     }
 
     private function loginAndRedirect(User $user): RedirectResponse
