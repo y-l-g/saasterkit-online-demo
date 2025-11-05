@@ -142,7 +142,7 @@ const goToPortal = () => {
                                 locale: 'en',
                             })
                         }}
-                        >.
+                        .
                     </p>
                     <UButton
                         @click="goToPortal()"
