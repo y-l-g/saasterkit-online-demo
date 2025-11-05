@@ -38,11 +38,25 @@ services:
   #################################################
   cron:
     image: ghcr.io/y-l-g/saasterkit-online-demo:main
-    restart: always
     command: ['cron', '-f']
     healthcheck:
       test: ['CMD', 'pgrep', '-f', 'cron']
       start_period: 20s
+    secrets:
+      - saasterkit_ENV
+    environment:
+      - APP_NAME=saasterkit
+    entrypoint: start-container
+    networks:
+      - saasterkit
+  ##################################################
+  # HORIZON
+  ##################################################
+  horizon:
+    image: ghcr.io/y-l-g/saasterkit-online-demo:main
+    command: ['php', 'artisan', 'horizon']
+    healthcheck:
+      test: ['CMD', 'php', 'artisan', 'horizon:status']
     secrets:
       - saasterkit_ENV
     environment:
