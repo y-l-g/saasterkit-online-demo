@@ -36,3 +36,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VITE_STRIPE_PRICE_PRO_MONTH=${{ secrets.VITE_STRIPE_PRICE_PRO_MONTH }}
+            VITE_STRIPE_PRICE_PRO_YEAR=${{ secrets.VITE_STRIPE_PRICE_PRO_YEAR }}
+            VITE_STRIPE_PRICE_PREMIUM_MONTH=${{ secrets.VITE_STRIPE_PRICE_PREMIUM_MONTH }}
+            VITE_STRIPE_PRICE_PREMIUM_YEAR=${{ secrets.VITE_STRIPE_PRICE_PREMIUM_YEAR }}
+            VITE_APP_NAME=${{ secrets.VITE_APP_NAME }}
+            VITE_APP_URL=${{ secrets.VITE_APP_URL }}

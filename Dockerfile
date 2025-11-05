@@ -66,7 +66,7 @@ RUN composer install -v \
 
 RUN npm ci
 
-# RUN sed -i 's/payload: { serverRendered: false }/payload: { serverRendered: typeof window === "undefined"}/g' node_modules/@nuxt/ui/dist/runtime/inertia/stubs.js
+RUN sed -i 's/payload: { serverRendered: false }/payload: { serverRendered: typeof window === "undefined"}/g' node_modules/@nuxt/ui/dist/runtime/inertia/stubs.js
 
 COPY --link . ./
 
@@ -77,7 +77,7 @@ RUN composer dump-autoload \
     --no-ansi \
     && composer clear-cache
 
-# RUN npm run build:ssr
+RUN npm run build:ssr
 
 RUN echo "* * * * * /usr/local/bin/php /app/artisan schedule:run >> /var/log/cron.log 2>&1" > /etc/cron.d/schedule
 RUN chmod 0644 /etc/cron.d/schedule
