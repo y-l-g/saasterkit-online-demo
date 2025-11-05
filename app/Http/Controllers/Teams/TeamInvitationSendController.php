@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Teams;
 
 use App\Http\Requests\Teams\TeamInvitationSendRequest;
-use App\Mail\TeamInvitationMail;
 use App\Models\Team;
 use App\Models\User;
+use App\Notifications\TeamInvitationNotification;
 use App\Services\AppNotificationService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 final readonly class TeamInvitationSendController
 {
@@ -34,7 +34,8 @@ final readonly class TeamInvitationSendController
             );
         }
 
-        Mail::to($request->input('email'))->queue(new TeamInvitationMail($invitation));
+        Notification::route('mail', $invitation->email)
+            ->notify(new TeamInvitationNotification($invitation));
 
         return back()->with('success', 'Invitation sent.');
     }

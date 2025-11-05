@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth\Socialite;
 
-use App\Mail\LoginLinkMail;
 use App\Models\SocialAccount;
 use App\Models\User;
+use App\Notifications\LoginLinkNotification;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Session\Store as Session;
-use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
 use Laravel\Socialite\Two\User as SocialiteUser;
 
@@ -87,7 +86,7 @@ final readonly class HandleProviderCallbackController
 
     private function sendLoginLinkandRedirect(User $user): RedirectResponse
     {
-        Mail::to($user)->queue(new LoginLinkMail($user));
+        $user->notify(new LoginLinkNotification);
 
         return to_route('login')->with('info', 'An account with this email already exists. We have sent a login link to your email address.');
     }

@@ -38,7 +38,7 @@ it('allows an admin user to send a notification to all users', function (): void
 
     assertDatabaseCount('app_notifications', 1);
     $notification = \App\Models\AppNotification::query()->first();
-    assertDatabaseCount('app_notification_user', \App\Models\User::query()->count());
+    assertDatabaseCount('app_notification_user', User::query()->count());
     expect($notification->title)->toBe('Test Title');
 });
 
