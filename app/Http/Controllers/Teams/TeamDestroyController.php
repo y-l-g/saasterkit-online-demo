@@ -20,6 +20,11 @@ final readonly class TeamDestroyController
 
         $team->purge();
 
+        $newTeam = $request->user()->teams()->first();
+        if ($newTeam) {
+            $request->user()->switchToTeam($newTeam);
+        }
+
         return to_route('dashboard')->with('success', 'Team has been deleted.');
     }
 }

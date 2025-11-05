@@ -38,7 +38,6 @@ it('allows an authorized user to send a team invitation', function (): void {
     );
 });
 
-
 it('fails if the user is already a member of the team', function (): void {
     $member = User::factory()->create();
     $this->team->users()->sync($member, false);

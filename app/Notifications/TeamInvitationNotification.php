@@ -19,8 +19,7 @@ class TeamInvitationNotification extends Notification implements ShouldQueue
      */
     public function __construct(
         public readonly TeamInvitation $invitation
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
