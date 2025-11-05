@@ -5,16 +5,20 @@ import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 import { redirect } from '@/routes/provider';
-import { Form } from '@inertiajs/vue3';
+import { Form, Head } from '@inertiajs/vue3';
 import IBiGithub from '~icons/bi/github';
 import IBiGoogle from '~icons/bi/google';
-useHead({
-    title: 'Log in',
-});
 </script>
 
 <template>
     <AuthBase title="Login" description="Access your account.">
+        <div class="text-sm text-muted">
+            <p class="font-bold">Log as an admin</p>
+            <p>admin@example.com</p>
+            <p>password</p>
+        </div>
+        <Head title="Log in" />
+
         <Form
             :action="store()"
             :reset-on-success="['password']"
