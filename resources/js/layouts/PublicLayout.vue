@@ -42,7 +42,11 @@ const footerItems: NavigationMenuItem[] = [
         }"
     >
         <template #title>
-            <UButton variant="link" size="xl" :icon="ILucideDollarSign"
+            <UButton
+                variant="link"
+                size="xl"
+                :icon="ILucideDollarSign"
+                class="cursor-pointer"
                 ><span v-if="!isXs" class="ml-[-12px]"
                     ><span class="text-default">aas</span>terkit</span
                 ></UButton
@@ -99,7 +103,7 @@ const footerItems: NavigationMenuItem[] = [
             <p class="text-sm text-muted">
                 {{ new Date().getFullYear() }}
                 Laravel Starter Kit by
-                <a href="https://y-l.fr">Wayel</a>
+                <a href="https://y-l.fr">YL</a>
             </p>
         </template>
         <UNavigationMenu :items="footerItems" variant="link" />
