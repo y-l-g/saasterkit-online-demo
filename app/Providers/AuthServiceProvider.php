@@ -51,6 +51,7 @@ class AuthServiceProvider extends ServiceProvider
             });
         }
     }
+
     private function registerFeatureGates(): void
     {
         foreach (FeatureEnum::cases() as $feature) {
