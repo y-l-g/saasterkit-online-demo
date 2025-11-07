@@ -11,9 +11,8 @@ useSeoMeta({
 
 <template>
     <PublicLayout>
-        <UContainer
-            v-html="content"
-            class="my-20 prose max-w-3xl dark:prose-invert"
-        />
+        <UContainer class="my-20 prose max-w-3xl dark:prose-invert"
+            ><div v-html="content"></div
+        ></UContainer>
     </PublicLayout>
 </template>
