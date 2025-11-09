@@ -6,6 +6,7 @@ use App\Enums\Teams\RoleEnum;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 test('it clears permissions cache when a user is added to a team', function (): void {
