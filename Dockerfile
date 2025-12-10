@@ -22,7 +22,6 @@ RUN set -eux; \
     procps \
     cron \
     nano \
-    mariadb-client \
     && curl -fsSL https://deb.nodesource.com/setup_25.x -o nodesource_setup.sh \
     && bash nodesource_setup.sh \
     && rm nodesource_setup.sh \
@@ -33,7 +32,8 @@ RUN set -eux; \
 	install-php-extensions \
 		@composer \
 		pcntl \
-        pdo_mysql \
+        pdo_pgsql \
+        pgsql \
         redis \
         opcache \
         intl \
