@@ -25,6 +25,11 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'email',
                 'max:255',
                 Rule::unique('users')->ignore($user->id),
+                function ($attribute, $value, $fail) use ($user, $input): void {
+                    if ($user->email === 'admin@example.com' && ($input['name'] !== $user->name || $input['email'] !== $user->email)) {
+                        $fail('Admin profile can\'t be modified in this demo app.');
+                    }
+                },
             ],
         ])->validate();
 

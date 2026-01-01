@@ -1,0 +1,10 @@
+{
+    "mdc.enableFormatting": true,
+    "[mdc]": {
+        "editor.defaultFormatter": "Nuxt.mdc",
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false,
+        "editor.formatOnPaste": true,
+    }
+}

@@ -16,8 +16,13 @@ final readonly class AdminSubscriptionIndexShowController
 {
     public function __invoke(Request $request): Response
     {
-        $subscriptions = QueryBuilder::for(Subscription::query()->with(['team.owner']), $request)
-            ->allowedFilters(
+        $subscriptions = QueryBuilder::for(
+            Subscription::query()
+                ->with(['team.owner'])
+                ->whereLike('stripe_id', 'sub_fake%'),
+            $request
+        )
+            ->allowedFilters([
                 AllowedFilter::scope('search'),
                 AllowedFilter::scope('period'),
                 AllowedFilter::scope('status'),

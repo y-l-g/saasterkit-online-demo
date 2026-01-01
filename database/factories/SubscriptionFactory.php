@@ -21,7 +21,7 @@ class SubscriptionFactory extends Factory
         return [
             'team_id' => Team::factory(),
             'type' => 'default',
-            'stripe_id' => 'sub_'.Str::random(40),
+            'stripe_id' => 'sub_fake'.Str::random(20),
             'stripe_price' => PlanEnum::cases()[rand(0, 1)]->prices()[['month', 'year'][rand(0, 1)]],
             'stripe_status' => SubscriptionStatusEnum::STATUS_ACTIVE,
             'created_at' => fake()->dateTimeThisYear(),
