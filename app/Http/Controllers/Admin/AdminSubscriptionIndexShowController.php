@@ -19,6 +19,7 @@ final readonly class AdminSubscriptionIndexShowController
         // @phpstan-ignore-next-line
         $subscriptions = QueryBuilder::for(Subscription::class, $request)
             ->with(['team.owner'])
+            ->whereLike('stripe_id', 'sub_fake%')
             ->allowedFilters([
                 AllowedFilter::scope('search'),
                 AllowedFilter::scope('period'),
