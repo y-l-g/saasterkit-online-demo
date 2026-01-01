@@ -27,12 +27,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-
 _ide_helper.php
-
 auto-imports.d.ts
 components.d.ts
-
-**/caddy
-frankenphp
-frankenphp-worker.php
+/doc

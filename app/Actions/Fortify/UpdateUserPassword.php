@@ -18,8 +18,24 @@ class UpdateUserPassword implements UpdatesUserPasswords
     public function update(User $user, array $input): void
     {
         Validator::make($input, [
-            'current_password' => ['nullable', 'string', Rule::requiredIf(fn (): bool => ! is_null($user->password)), 'current_password:web'],
-            'password' => ['required', 'string', Password::default(), 'confirmed'],
+            'current_password' => [
+                'nullable',
+                'string',
+                Rule::requiredIf(fn (): bool => ! is_null($user->password)),
+                'current_password:web',
+                function ($attribute, $value, $fail) use ($user): void {
+                    if ($user->email === 'admin@example.com') {
+                        $fail('Admin password can\'t be modified in this demo app.');
+                    }
+                },
+            ],
+            'password' => [
+                'required',
+                'string',
+                Password::default(),
+                'confirmed',
+
+            ],
         ], [
             'current_password.current_password' => __('The provided password does not match your current password.'),
         ])->validate();
