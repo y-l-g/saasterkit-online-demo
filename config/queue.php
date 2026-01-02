@@ -29,6 +29,11 @@ return [
     */
 
     'connections' => [
+        'pogo' => [
+            'driver' => 'pogo',
+            'queue' => env('POGO_QUEUE', 'default'),
+            'retry_after' => 90,
+        ],
 
         'sync' => [
             'driver' => 'sync',
