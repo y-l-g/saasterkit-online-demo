@@ -17,8 +17,6 @@
         worker {$APP_PUBLIC_PATH}/queue-worker.php
 		num_threads 2
 	}
-    debug
-    admin off
 }
 
 {$CADDY_EXTRA_CONFIG}
