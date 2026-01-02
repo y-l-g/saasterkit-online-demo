@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cea8e5e79e44a585a2211a3c499ad55a",
+    "content-hash": "8cd9c8278f0e7f283f22e8aa1947ffd2",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4118,6 +4118,101 @@
                 "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.0"
             },
             "time": "2025-08-30T15:50:23+00:00"
+        },
+        {
+            "name": "pogo/queue",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/y-l-g/lq.git",
+                "reference": "434ad7dbf1a642a3b2b0a9de7168cf9ece45a92e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/y-l-g/lq/zipball/434ad7dbf1a642a3b2b0a9de7168cf9ece45a92e",
+                "reference": "434ad7dbf1a642a3b2b0a9de7168cf9ece45a92e",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^12.0",
+                "laravel/octane": "^2.0",
+                "php": "^8.5"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^10.0",
+                "phpunit/phpunit": "^12.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pogo\\Queue\\PogoQueueServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pogo\\Queue\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "FrankenPHP In-Memory Queue Driver for Laravel",
+            "support": {
+                "issues": "https://github.com/y-l-g/lq/issues",
+                "source": "https://github.com/y-l-g/lq/tree/main"
+            },
+            "time": "2026-01-02T20:04:26+00:00"
+        },
+        {
+            "name": "pogo/scheduler",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/y-l-g/scheduler.git",
+                "reference": "f114150dc495bf62a1578c48dad27ea0632cb718"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/y-l-g/scheduler/zipball/f114150dc495bf62a1578c48dad27ea0632cb718",
+                "reference": "f114150dc495bf62a1578c48dad27ea0632cb718",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^12.0",
+                "laravel/octane": "^2.0",
+                "php": "^8.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pogo\\Scheduler\\SchedulerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pogo\\Scheduler\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "FrankenPHP Native Scheduler for Laravel",
+            "keywords": [
+                "cron",
+                "frankenphp",
+                "laravel",
+                "scheduler"
+            ],
+            "support": {
+                "issues": "https://github.com/y-l-g/scheduler/issues",
+                "source": "https://github.com/y-l-g/scheduler/tree/main"
+            },
+            "time": "2026-01-02T21:15:32+00:00"
         },
         {
             "name": "pragmarx/google2fa",
@@ -12249,8 +12344,11 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {},
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "pogo/queue": 20,
+        "pogo/scheduler": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
