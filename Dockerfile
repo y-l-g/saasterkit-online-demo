@@ -12,8 +12,8 @@ RUN CGO_ENABLED=1 \
         --with github.com/dunglas/frankenphp=./ \
         --with github.com/dunglas/frankenphp/caddy=./caddy/ \
         --with github.com/dunglas/caddy-cbrotli \
-        --with github.com/y-l-g/scheduler \
-        --with github.com/y-l-g/queue
+        --with github.com/y-l-g/scheduler/module \
+        --with github.com/y-l-g/queue/module
 
 FROM serversideup/php:8.5-frankenphp-trixie
 
