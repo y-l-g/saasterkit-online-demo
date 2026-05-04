@@ -41,3 +41,5 @@ frankenphp-worker.php
 **/caddy
 frankenphp
 frankenphp-worker.php
+
+.readme-private.md
