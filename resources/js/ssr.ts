@@ -34,5 +34,5 @@ createServer(
             return app;
         });
     },
-    { cluster: true },
+    { cluster: false },
 );
