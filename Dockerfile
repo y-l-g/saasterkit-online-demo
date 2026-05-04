@@ -1,4 +1,4 @@
-FROM serversideup/php:8.5-frankenphp-trixie
+FROM serversideup/php:8.5.5-frankenphp-trixie-v4.3.5
 
 ARG VITE_STRIPE_PRICE_PRO_MONTH
 ARG VITE_STRIPE_PRICE_PRO_YEAR
@@ -12,6 +12,7 @@ USER root
 RUN install-php-extensions bcmath intl gd exif ftp \
     && curl -fsSL https://deb.nodesource.com/setup_25.x -o nodesource_setup.sh \
     && bash nodesource_setup.sh \
+    && apt-get update \
     && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && rm nodesource_setup.sh
@@ -27,4 +28,3 @@ RUN composer install -v \
     --prefer-dist \
     --classmap-authoritative \
     && npm ci && npm run build:ssr
-
