@@ -15,7 +15,7 @@
         "laravel/fortify": "^1.37",
         "laravel/framework": "^13.0",
         "laravel/horizon": "^5.41",
-        "laravel/octane": "*",
+        "laravel/octane": "^2.17",
         "laravel/socialite": "^5.23",
         "laravel/tinker": "^3.0.2",
         "laravel/wayfinder": "^0.1.12",
