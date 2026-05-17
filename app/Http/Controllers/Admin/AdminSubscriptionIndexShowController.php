@@ -22,7 +22,7 @@ final readonly class AdminSubscriptionIndexShowController
                 ->whereLike('stripe_id', 'sub_fake%'),
             $request
         )
-            ->allowedFilters([
+            ->allowedFilters(
                 AllowedFilter::scope('search'),
                 AllowedFilter::scope('period'),
                 AllowedFilter::scope('status'),
