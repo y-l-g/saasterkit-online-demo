@@ -19,8 +19,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_25.x -o nodesource_setup.sh \
     && bash nodesource_setup.sh \
     && apt-get update \
     && apt-get install -y --no-install-recommends nodejs nano postgresql-client-18 libpq-dev \
-    && ln -sf libpq.so.5.18 /usr/lib/x86_64-linux-gnu/libpq.so.5 \
-    && ln -sf libpq.so.5.18 /usr/lib/x86_64-linux-gnu/libpq.so \
+    && LIBPQ_DIR="$(dirname "$(find /usr/lib -path '*/libpq.so.5.18' -print -quit)")" \
+    && ln -sf libpq.so.5.18 "$LIBPQ_DIR/libpq.so.5" \
+    && ln -sf libpq.so.5.18 "$LIBPQ_DIR/libpq.so" \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && rm nodesource_setup.sh
 
