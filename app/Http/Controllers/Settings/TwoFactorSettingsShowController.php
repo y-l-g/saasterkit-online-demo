@@ -15,7 +15,7 @@ final readonly class TwoFactorSettingsShowController
     public function __invoke(TwoFactorAuthenticationRequest $request): Response|RedirectResponse
     {
         if ($request->user()->email === 'admin@example.com') {
-            return redirect()->back()->with('error', 'Admin user can\'t use 2FA in this demo app');
+            return back()->with('error', 'Admin user can\'t use 2FA in this demo app');
         }
         $request->ensureStateIsValid();
 
