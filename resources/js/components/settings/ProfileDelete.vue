@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PasswordInput from '@/components/PasswordInput.vue';
 import { useAuthPage } from '@/composables/useAuthPage';
 import { edit } from '@/routes/password';
 import { destroy } from '@/routes/profile';
@@ -10,22 +11,23 @@ defineProps<{
     userOwnsTeam: boolean;
 }>();
 
-const passwordInput = ref<HTMLInputElement | null>(null);
+const passwordInput = ref<InstanceType<typeof PasswordInput> | null>(null);
 
 const form = useForm({
     password: '',
 });
 
 const page = useAuthPage();
+const currentTeamSlug = page.props.user.currentTeam!.slug;
 const deleteTeam = (close: () => void) => {
-    form.submit(destroy(), {
+    form.submit(destroy(currentTeamSlug), {
         preserveScroll: true,
         onSuccess: () => {
             close();
             form.reset();
         },
         onError: () => {
-            passwordInput?.value?.focus();
+            passwordInput.value?.focus();
         },
     });
 };
@@ -48,11 +50,13 @@ const deleteTeam = (close: () => void) => {
         >
         <template #description v-else-if="!page.props.user.hasPassword"
             >To delete your account, you must
-            <ULink class="underline" :to="edit().url">define a password</ULink>
+            <ULink class="underline" :to="edit(currentTeamSlug).url"
+                >define a password</ULink
+            >
         </template>
         <template #description v-else-if="userOwnsTeam"
             >To delete your account, you must
-            <ULink class="underline" :to="teams().url"
+            <ULink class="underline" :to="teams(currentTeamSlug).url"
                 >delete all the teams you own</ULink
             >
         </template>
@@ -80,10 +84,9 @@ const deleteTeam = (close: () => void) => {
                         label="Password"
                         required
                     >
-                        <UInput
+                        <PasswordInput
                             required
                             id="password"
-                            type="password"
                             name="password"
                             ref="passwordInput"
                             v-model="form.password"

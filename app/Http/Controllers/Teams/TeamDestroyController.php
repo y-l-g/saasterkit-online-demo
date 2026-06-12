@@ -10,21 +10,20 @@ use Illuminate\Http\RedirectResponse;
 
 final readonly class TeamDestroyController
 {
-    public function __invoke(TeamDestroyRequest $request, Team $team): RedirectResponse
+    public function __invoke(TeamDestroyRequest $request, Team $current_team): RedirectResponse
     {
-        $defaultSubscription = $team->subscription('default');
-
-        if ($defaultSubscription !== null && $defaultSubscription->valid() && ! $defaultSubscription->canceled()) {
-            return back()->with('error', 'You must cancel your subscription before delete this team');
-        }
+        $team = $current_team;
 
         $team->purge();
 
         $newTeam = $request->user()->teams()->first();
         if ($newTeam) {
             $request->user()->switchToTeam($newTeam);
+
+            return to_route('dashboard', ['current_team' => $newTeam->slug])
+                ->with('success', 'Team has been deleted.');
         }
 
-        return to_route('dashboard')->with('success', 'Team has been deleted.');
+        return to_route('onboarding')->with('success', 'Team has been deleted.');
     }
 }

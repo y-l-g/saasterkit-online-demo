@@ -37,7 +37,7 @@ const handleSubscribeFromLanding = ({
     isProcessing.value = true;
     if (page.props.user?.currentTeam) {
         router.get(
-            show(page.props.user.currentTeam.id).url,
+            show(page.props.user.currentTeam.slug).url,
             {},
             { onFinish: () => (isProcessing.value = false) },
         );
@@ -171,6 +171,7 @@ const features = [
                         <UButton
                             to="https://github.com/y-l-g/saasterkit"
                             target="_blank"
+                            rel="noopener noreferrer"
                             size="xl"
                             label="Star on GitHub"
                             color="neutral"

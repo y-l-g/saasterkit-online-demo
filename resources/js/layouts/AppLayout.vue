@@ -6,8 +6,9 @@ import { useAuthPage } from '@/composables/useAuthPage';
 import { useDashboard } from '@/composables/useDashboard';
 import { AppLogoIcon } from '@/icons/AppLogoIcon';
 import { admin, dashboard } from '@/routes';
+import { isCurrentUrl } from '@/utils/currentUrl';
 import type { BreadcrumbItem, NavigationMenuItem } from '@nuxt/ui';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 defineProps<{
     breadcrumbs?: BreadcrumbItem[];
@@ -18,17 +19,23 @@ const { isNotificationsSlideoverOpen } = useDashboard();
 const open = ref(false);
 const page = useAuthPage();
 
-const hasCurrentTeamlinks: NavigationMenuItem[] = [
+const dashboardUrl = computed(() =>
+    page.props.user.currentTeam
+        ? dashboard(page.props.user.currentTeam.slug).url
+        : '/dashboard',
+);
+
+const hasCurrentTeamlinks = computed<NavigationMenuItem[]>(() => [
     {
         label: 'Dashboard',
         icon: 'i-lucide-house',
-        to: dashboard().url,
-        active: page.url === dashboard().url,
+        to: dashboardUrl.value,
+        active: isCurrentUrl(page.url, dashboardUrl.value, true),
         onSelect: () => {
             open.value = false;
         },
     },
-];
+]);
 
 const bottomlinks: NavigationMenuItem[] = [
     {
@@ -36,12 +43,14 @@ const bottomlinks: NavigationMenuItem[] = [
         icon: 'i-lucide-folder',
         to: 'https://github.com/y-l-g/saasterkit',
         target: '_blank',
+        rel: 'noopener noreferrer',
     },
     {
         label: 'Documentation',
         icon: 'i-lucide-info',
         to: 'https://doc.saasterkit.com',
         target: '_blank',
+        rel: 'noopener noreferrer',
     },
 ];
 </script>
@@ -65,7 +74,8 @@ const bottomlinks: NavigationMenuItem[] = [
                     :square="collapsed"
                     class="data-[state=open]:bg-elevated"
                     :class="[!collapsed && 'py-2']"
-                    :to="dashboard().url"
+                    :to="dashboardUrl"
+                    aria-label="Dashboard"
                     ><span v-if="!collapsed"
                         ><span class="text-default">Saas</span>terkit</span
                     ></UButton
@@ -76,7 +86,7 @@ const bottomlinks: NavigationMenuItem[] = [
                 <UNavigationMenu
                     :collapsed="collapsed"
                     :items="
-                        page.props.user.currentTeamId ? hasCurrentTeamlinks : []
+                        page.props.user.currentTeam ? hasCurrentTeamlinks : []
                     "
                     orientation="vertical"
                     tooltip
@@ -94,7 +104,7 @@ const bottomlinks: NavigationMenuItem[] = [
 
             <template
                 #footer="{ collapsed }"
-                v-if="page.props.user.currentTeamId"
+                v-if="page.props.user.currentTeam"
             >
                 <TeamMenu :collapsed="collapsed" />
             </template>
@@ -121,6 +131,7 @@ const bottomlinks: NavigationMenuItem[] = [
                                 color="neutral"
                                 variant="ghost"
                                 square
+                                aria-label="Open notifications"
                                 @click="isNotificationsSlideoverOpen = true"
                             >
                                 <UChip
@@ -144,6 +155,7 @@ const bottomlinks: NavigationMenuItem[] = [
                             icon="i-lucide-shield"
                             variant="subtle"
                             color="info"
+                            aria-label="Admin dashboard"
                         ></UButton>
                         <UserMenu
                     /></template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PasswordInput from '@/components/PasswordInput.vue';
 import { useAuthPage } from '@/composables/useAuthPage';
 import { portal } from '@/routes/billing';
 import { edit } from '@/routes/password';
@@ -11,19 +12,19 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const passwordInput = ref<HTMLInputElement | null>(null);
+const passwordInput = ref<InstanceType<typeof PasswordInput> | null>(null);
 const page = useAuthPage();
 const confirmingTeamDeletion = ref(false);
 const form = useForm({ password: '' });
 
 const deleteTeam = (close: () => void) => {
-    form.submit(destroy(props.team), {
+    form.submit(destroy(props.team.slug), {
         onSuccess: () => {
             close();
             form.reset();
         },
         onError: () => {
-            passwordInput?.value?.focus();
+            passwordInput.value?.focus();
         },
     });
 };
@@ -33,7 +34,7 @@ const isRedirecting = ref(false);
 const goToPortal = () => {
     isRedirecting.value = true;
     router.get(
-        portal(props.team.id).url,
+        portal(props.team.slug).url,
         {},
         {
             onFinish: () => {
@@ -62,10 +63,12 @@ const goToPortal = () => {
         >
         <template #description v-else
             >To delete this team, you must
-            <ULink class="underline" :to="edit().url">define a password</ULink>
+            <ULink class="underline" :to="edit(props.team.slug).url"
+                >define a password</ULink
+            >
         </template>
         <UModal
-            v-if="!team.subscription?.id || team.subscription?.endsAt"
+            v-if="!team.subscription?.valid"
             v-model="confirmingTeamDeletion"
             title="Delete Team"
             description="Are you sure you want to delete this team? Once a team is
@@ -88,10 +91,9 @@ const goToPortal = () => {
                         label="Password"
                         required
                     >
-                        <UInput
+                        <PasswordInput
                             required
                             id="password"
-                            type="password"
                             name="password"
                             ref="passwordInput"
                             v-model="form.password"
@@ -122,7 +124,7 @@ const goToPortal = () => {
             v-else
             v-model="confirmingTeamDeletion"
             title="Delete Team"
-            description="You can't delete this team because it has an active subscription. Please cancel your subscription."
+            description="You can't delete this team because it has an active or ending subscription. Please cancel your subscription first."
         >
             <UButton
                 color="error"

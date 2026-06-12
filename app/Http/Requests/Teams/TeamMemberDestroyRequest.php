@@ -16,7 +16,7 @@ class TeamMemberDestroyRequest extends FormRequest
     public function authorize(): bool
     {
         /** @var Team $team */
-        $team = $this->route('team');
+        $team = $this->route('current_team');
         /** @var User $member */
         $member = $this->route('user');
 
@@ -42,12 +42,14 @@ class TeamMemberDestroyRequest extends FormRequest
     protected function passedValidation(): void
     {
         /** @var Team $team */
-        $team = $this->route('team');
+        $team = $this->route('current_team');
         /** @var User $member */
         $member = $this->route('user');
 
         throw_if($team->owner->is($member), ValidationException::withMessages([
             'member' => 'You may not leave a team that you created.',
         ]));
+
+        abort_unless($team->users()->whereKey($member->id)->exists(), 404);
     }
 }

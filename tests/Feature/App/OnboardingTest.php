@@ -25,6 +25,7 @@ it('displays pending team invitations for the logged in users email', function (
     $user = User::factory()->create();
     $team = Team::factory()->create();
     TeamInvitation::factory()->create(['team_id' => $team->id, 'email' => $user->email]);
+    TeamInvitation::factory()->create(['accepted_at' => now(), 'team_id' => $team->id, 'email' => $user->email]);
     TeamInvitation::factory()->create(['team_id' => $team->id, 'email' => 'another@email.com']);
 
     actingAs($user)
@@ -33,6 +34,20 @@ it('displays pending team invitations for the logged in users email', function (
             fn (Assert $page) => $page
                 ->has('invitations', 1)
                 ->where('invitations.0.email', $user->email)
+        );
+});
+
+it('displays pending team invitations when email casing differs', function (): void {
+    $user = User::factory()->create(['email' => 'member@example.com']);
+    $team = Team::factory()->create();
+    TeamInvitation::factory()->create(['team_id' => $team->id, 'email' => 'Member@Example.COM']);
+
+    actingAs($user)
+        ->get(route('onboarding'))
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->has('invitations', 1)
+                ->where('invitations.0.email', 'Member@Example.COM')
         );
 });
 

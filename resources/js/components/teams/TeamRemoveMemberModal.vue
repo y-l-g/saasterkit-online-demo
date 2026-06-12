@@ -14,7 +14,7 @@ const removeTeamMemberForm = useForm({});
 const removeTeamMember = (close: () => void) => {
     removeTeamMemberForm.submit(
         destroy({
-            team: props.team.id,
+            current_team: props.team.slug,
             user: props.member,
         }),
         {
@@ -38,6 +38,7 @@ const removeTeamMember = (close: () => void) => {
             variant="subtle"
             icon="i-lucide-log-out"
             class="size-8"
+            aria-label="Remove team member"
         ></UButton>
         <template #body="{ close }">
             <div class="mt-6 flex justify-end gap-3">

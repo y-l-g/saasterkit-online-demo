@@ -1,18 +1,21 @@
 <script setup lang="ts">
+import PasswordInput from '@/components/PasswordInput.vue';
 import { useAuthPage } from '@/composables/useAuthPage';
 import SettingsLayout from '@/layouts/SettingsLayout.vue';
 import { settings } from '@/routes/user';
 import { update } from '@/routes/user-password';
 import { Form } from '@inertiajs/vue3';
 
+const page = useAuthPage();
+const currentTeamSlug = page.props.user.currentTeam!.slug;
+
 const breadcrumbs = [
-    { label: 'Settings', to: settings().url },
+    { label: 'Settings', to: settings(currentTeamSlug).url },
     { label: 'Password' },
 ];
 useHead({
     title: 'Password settings',
 });
-const page = useAuthPage();
 </script>
 
 <template>
@@ -48,10 +51,10 @@ const page = useAuthPage();
                     :error="errors.current_password"
                     required
                 >
-                    <UInput
+                    <PasswordInput
                         required
+                        id="current_password"
                         name="current_password"
-                        type="password"
                         autocomplete="current-password"
                         placeholder="Current password"
                         class="w-full"
@@ -64,10 +67,10 @@ const page = useAuthPage();
                     :error="errors.password"
                     required
                 >
-                    <UInput
+                    <PasswordInput
                         required
+                        id="password"
                         name="password"
-                        type="password"
                         autocomplete="new-password"
                         placeholder="New password"
                         class="w-full"
@@ -80,11 +83,10 @@ const page = useAuthPage();
                     :error="errors.password_confirmation"
                     required
                 >
-                    <UInput
+                    <PasswordInput
                         required
                         id="password_confirmation"
                         name="password_confirmation"
-                        type="password"
                         autocomplete="new-password"
                         placeholder="Confirm password"
                         class="w-full"

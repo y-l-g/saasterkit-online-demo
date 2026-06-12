@@ -18,7 +18,7 @@ it('denies access if user does not have team delete permission', function (): vo
     $member = User::factory()->create();
     $team->users()->syncWithPivotValues($member->id, ['role' => 'editor'], false);
 
-    actingAs($member)->delete(route('teams.destroy', $team))->assertForbidden();
+    actingAs($member)->delete(scoped_route('teams.destroy', $team))->assertForbidden();
 });
 
 it('fails if the user provides the wrong password', function (): void {
@@ -26,7 +26,7 @@ it('fails if the user provides the wrong password', function (): void {
     $team = Team::factory()->create(['user_id' => $user->id]);
 
     actingAs($user)
-        ->delete(route('teams.destroy', $team), ['password' => 'wrong-password'])
+        ->delete(scoped_route('teams.destroy', $team), ['password' => 'wrong-password'])
         ->assertSessionHasErrors('password');
 });
 
@@ -36,8 +36,33 @@ it('fails if the team has an active subscription', function (): void {
     Subscription::factory()->active()->create(['team_id' => $team->id]);
 
     actingAs($user)
-        ->delete(route('teams.destroy', $team), ['password' => 'password'])
-        ->assertSessionHas('error');
+        ->delete(scoped_route('teams.destroy', $team), ['password' => 'password'])
+        ->assertSessionHasErrors('subscription');
+});
+
+it('fails if the team has a subscription on grace period', function (): void {
+    $user = User::factory()->create();
+    $team = Team::factory()->create(['user_id' => $user->id]);
+    Subscription::factory()->canceled()->create(['team_id' => $team->id]);
+
+    actingAs($user)
+        ->delete(scoped_route('teams.destroy', $team), ['password' => 'password'])
+        ->assertSessionHasErrors('subscription');
+});
+
+it('allows deleting a team after its subscription has ended', function (): void {
+    $user = User::factory()->create();
+    $team = Team::factory()->create(['user_id' => $user->id]);
+    Subscription::factory()->canceled()->create([
+        'team_id' => $team->id,
+        'ends_at' => now()->subDay(),
+    ]);
+
+    actingAs($user)
+        ->delete(scoped_route('teams.destroy', $team), ['password' => 'password'])
+        ->assertRedirect(route('onboarding'));
+
+    assertDatabaseMissing('teams', ['id' => $team->id]);
 });
 
 it('allows an authorized user to delete a team', function (): void {
@@ -45,8 +70,8 @@ it('allows an authorized user to delete a team', function (): void {
     $team = Team::factory()->create(['user_id' => $user->id]);
 
     actingAs($user)
-        ->delete(route('teams.destroy', $team), ['password' => 'password'])
-        ->assertRedirect(route('dashboard'));
+        ->delete(scoped_route('teams.destroy', $team), ['password' => 'password'])
+        ->assertRedirect(route('onboarding'));
 
     assertDatabaseMissing('teams', ['id' => $team->id]);
 });

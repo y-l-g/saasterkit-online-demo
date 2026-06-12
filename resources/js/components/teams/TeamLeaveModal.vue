@@ -16,7 +16,7 @@ const leaveTeamForm = useForm({
 
 const leaveTeam = (close: () => void) => {
     leaveTeamForm.submit(
-        destroy({ team: props.team.id, user: page.props.user }),
+        destroy({ current_team: props.team.slug, user: page.props.user }),
         {
             onSuccess: () => {
                 close();
@@ -38,6 +38,7 @@ const leaveTeam = (close: () => void) => {
                 block
                 icon="i-lucide-log-out"
                 :disabled="team.userId === page.props.user.id"
+                aria-label="Leave team"
             ></UButton>
         </div>
         <template #body="{ close }">
