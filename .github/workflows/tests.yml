@@ -34,6 +34,9 @@ jobs:
       - name: Install Node Dependencies
         run: npm ci
 
+      - name: Node Audit
+        run: npm audit --audit-level=high
+
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
