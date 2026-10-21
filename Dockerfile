@@ -1,4 +1,4 @@
-FROM serversideup/php:8.5.6-frankenphp-trixie
+FROM serversideup/php:8.5.12-frankenphp
 
 ARG VITE_STRIPE_PRICE_PRO_MONTH
 ARG VITE_STRIPE_PRICE_PRO_YEAR
