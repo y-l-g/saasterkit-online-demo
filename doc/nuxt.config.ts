@@ -2,7 +2,7 @@ import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   site: {
-    url: "https://doc.saasterkit.com",
+    url: "https://doc.saasterkit.y-l.fr",
   },
   routeRules: {
     "/": { redirect: "/getting-started/introduction" },
